@@ -21,6 +21,7 @@
       	<script src="jquery.transit.min.js"></script>
 		<script>
 
+			var hasRightClicked = false; // already right clicked
 
 			function rn() { // random number
 				// range [1, 8] inclusive 
@@ -31,30 +32,14 @@
 				return (Math.floor(Math.random() * 8) + 1); 
 			}
 
-			function display(value, delay, underline) {
-				setTimeout(function() {
-					var text; 
-					if (underline) {
-						text = "<p style=\"text-decoration: underline;\">" + value + "</p>"; 
-					} else {
-						text = value; 
-					}
-					document.getElementById("paragraph").innerHTML = text; 
-				}, delay); 
-			}
-
 			function roll(isRight) {
 				// 2539
 				// 3047
 				if (isRight) {			
-					display(420, 3047, true);
+					document.getElementById("paragraph").innerHTML = 1; 
 				} else {
-					display(rn(), 3047, true);
+					document.getElementById("paragraph").innerHTML = rn(); 
 				}
-
-				for (i = 1; i < 3000; i = i * 1.2) {
-					display(rn(), i, false); 
-				};
 			}
 
 
@@ -64,7 +49,8 @@
 			            roll(false); 			           
 			            break;
 			        case 3: // right 
-			            roll(true); 
+			            roll(!hasRightClicked); 
+			            hasRightClicked = true;
 			            break;
 			    }
 			});
