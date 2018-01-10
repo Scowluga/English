@@ -20,8 +20,9 @@
 
 	function roll(isRight) {
 		var val = previous; 
-		if (isRight) {			
-			val = 2; 
+		if (isRight) {		
+			if (previous == 2) val = 3; 
+			else val = 2; 	
 		} else {
 			while (val == previous) {
 				val = rn(); 
