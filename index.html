@@ -1,60 +1,72 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
-</head>
-<body oncontextmenu="return false">
-		<div style="
-		 margin-top: 200px;
-		margin-left: auto; 
-		margin-right: auto; 
-		margin-bottom: auto; 
-		height: 900px; width: 200px;">
-			<p id="paragraph" style="text-align: center; font-size: 200px; margin-bottom: -10px">?</p>	
-			<button id="mybtn" type="button" class="btn btn-default" style="margin:0 auto; display: block; width: 100px; height: 50px;">Start</button>
-		</div>
+<meta charset="utf-8">
+<title>English</title>
 
+<link href="style.css" rel="stylesheet">
 
-		<script src="jquery.min.js"></script>
-      	<script src="jquery.transit.min.js"></script>
-		<script>
+<script src="jquery.min.js"></script>
+		
+<script>
 
-			var hasRightClicked = false; // already right clicked
+	var previous = -1; 
+	var hasRightClicked = false; // already right clicked
 
-			function rn() { // random number
-				// range [1, 8] inclusive 
-				// odd --> gain
-				// even --> lose 
-				// E = (1 - 2) + (3 - 4) + (5 - 6) + (7 - 8)
-				// E = -4
-				return (Math.floor(Math.random() * 8) + 1); 
+	function rn() { // random number
+		// range [1, 8] inclusive
+		// (1, 2, 3, 4) add
+		// (5, 6, 7, 8) subtract
+		return (Math.floor(Math.random() * 8) + 1); 
+	}
+
+	function roll(isRight) {
+		var val = previous; 
+		if (isRight) {			
+			val = 2; 
+		} else {
+			while (val == previous) {
+				val = rn(); 
 			}
+		}
 
-			function roll(isRight) {
-				// 2539
-				// 3047
-				if (isRight) {			
-					document.getElementById("paragraph").innerHTML = 1; 
-				} else {
-					document.getElementById("paragraph").innerHTML = rn(); 
-				}
-			}
+		$('#paragraph').html(val); 
+		previous = val; 
+
+		if (val <= 4) { // add
+			$('#success').css('visibility', 'visible'); 
+			$('#failure').css('visibility', 'hidden');
+			$('.wrapper').css('background', '#4CAF50');
+		} else { // subtract
+			$('#success').css('visibility', 'hidden'); 
+			$('#failure').css('visibility', 'visible');
+			$('.wrapper').css('background', '#F44336');
+		}
+	}
 
 
-			$('#mybtn').mousedown(function(event) {
-			    switch (event.which) {
-			        case 1: // left
-			            roll(false); 			           
-			            break;
-			        case 3: // right 
-			            roll(!hasRightClicked); 
-			            hasRightClicked = true;
-			            break;
-			    }
-			});
+	$(document).mousedown(function(event) {
+	    switch (event.which) {
+	        case 1: // left
+	            roll(false); 			           
+	            break;
+	        case 3: // right 
+	            roll(!hasRightClicked); 
+	            hasRightClicked = true;
+	            break;
+	    }
+	});
 
-		</script>
-</body>
-</html>
+</script>
+
+<div class="wrapper" oncontextmenu="return false">
+
+	<div id="success" class="result">
+		<p>↑</p>
+	</div>
+
+	<p id="paragraph">?</p>
+
+	<div id="failure" class="result">
+		<p>↓</p>
+	</div>
+
+</div>
