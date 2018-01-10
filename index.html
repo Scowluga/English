@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+</head>
+<body oncontextmenu="return false">
+		<div style="
+		 margin-top: 200px;
+		margin-left: auto; 
+		margin-right: auto; 
+		margin-bottom: auto; 
+		height: 900px; width: 200px;">
+			<p id="paragraph" style="text-align: center; font-size: 200px; margin-bottom: -10px">?</p>	
+			<button id="mybtn" type="button" class="btn btn-default" style="margin:0 auto; display: block; width: 100px; height: 50px;">Start</button>
+		</div>
+
+
+		<script src="jquery.min.js"></script>
+      	<script src="jquery.transit.min.js"></script>
+		<script>
+
+
+			function rn() { // random number
+				// range [1, 8] inclusive 
+				// odd --> gain
+				// even --> lose 
+				// E = (1 - 2) + (3 - 4) + (5 - 6) + (7 - 8)
+				// E = -4
+				return (Math.floor(Math.random() * 8) + 1); 
+			}
+
+			function display(value, delay, underline) {
+				setTimeout(function() {
+					var text; 
+					if (underline) {
+						text = "<p style=\"text-decoration: underline;\">" + value + "</p>"; 
+					} else {
+						text = value; 
+					}
+					document.getElementById("paragraph").innerHTML = text; 
+				}, delay); 
+			}
+
+			function roll(isRight) {
+				// 2539
+				// 3047
+				if (isRight) {			
+					display(420, 3047, true);
+				} else {
+					display(rn(), 3047, true);
+				}
+
+				for (i = 1; i < 3000; i = i * 1.2) {
+					display(rn(), i, false); 
+				};
+			}
+
+
+			$('#mybtn').mousedown(function(event) {
+			    switch (event.which) {
+			        case 1: // left
+			            roll(false); 			           
+			            break;
+			        case 3: // right 
+			            roll(true); 
+			            break;
+			    }
+			});
+
+		</script>
+</body>
+</html>
