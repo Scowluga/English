@@ -8,8 +8,7 @@
 		
 <script>
 
-	var previous = -1; 
-	var hasRightClicked = false; // already right clicked
+	var isPrimed = false;
 
 	function rn() { // random number
 		// range [1, 8] inclusive
@@ -18,17 +17,7 @@
 		return (Math.floor(Math.random() * 8) + 1); 
 	}
 
-	function roll(isRight) {
-		var val = previous; 
-		if (isRight) {		
-			if (previous == 2) val = 3; 
-			else val = 2; 	
-		} else {
-			while (val == previous) {
-				val = rn(); 
-			}
-		}
-
+	function show(val) {
 		$('#paragraph').html(val); 
 		previous = val; 
 
@@ -47,11 +36,18 @@
 	$(document).mousedown(function(event) {
 	    switch (event.which) {
 	        case 1: // left
-	            roll(false); 			           
+	        	if (isPrimed) {
+	        		show(2); 
+	        		isPrimed = false; 
+	        	} else {
+					show(rn()); 			           
+	        	}
 	            break;
 	        case 3: // right 
-	            roll(!hasRightClicked); 
-	            hasRightClicked = true;
+	        	if (!isPrimed) { // not primed --> prime it 
+	        		isPrimed = true; 
+	        		show(5); 
+	        	} 
 	            break;
 	    }
 	});
